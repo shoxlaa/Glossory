@@ -1,0 +1,11 @@
+﻿<Application x:Class="Glossory_MayBeFinal_.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Glossory_MayBeFinal_" 
+             xmlns:v="clr-namespace:Glossory_MayBeFinal_.Views"  >
+
+
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

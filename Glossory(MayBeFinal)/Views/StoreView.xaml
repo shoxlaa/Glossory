@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="Glossory_MayBeFinal_.Views.StoreView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Glossory_MayBeFinal_.Views" 
+             xmlns:models="clr-namespace:Glossory_MayBeFinal_.Models" 
+             xmlns:vm="clr-namespace:Glossory_MayBeFinal_.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" 
+             d:DataContext="{d:DesignInstance vm:StoreViewModel}"
+>
+    <UserControl.Resources>
+        <DataTemplate x:Key="ProductsListTemplate" DataType="{x:Type models:Product}">
+            <TextBlock> 
+                
+           
+                <TextBlock.InputBindings>
+                    <MouseBinding MouseAction="LeftDoubleClick" 
+                                      Command="{Binding DataContext.RemoveCommand,
+                            RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                      CommandParameter="{Binding ElementName=ProductsList,Path=SelectedItem}"/>
+                </TextBlock.InputBindings>
+
+            </TextBlock>
+
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="0.2*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="5" Margin="10">
+            <TextBlock DockPanel.Dock="Top" FontFamily="Tahoma" FontSize="30" >Store</TextBlock>
+            <DataGrid x:Name="ProductsList" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}" ></DataGrid>
+        </DockPanel>
+        <Button Grid.Row="1" Grid.Column="0" Content="Add" Margin="5" Command="{Binding OpenAddWindowCommand}"/>
+        <Button Grid.Row="1" Grid.Column="1" Content="Delete" Margin="5" Command="{Binding RemoveCommand}"/>
+        <Button Grid.Row="1" Grid.Column="2" Content="Update" Margin="5" Command="{Binding UpdateCommand}"/>
+        <Button Grid.Row="1" Grid.Column="3" Content="Search" Margin="5" />
+        <Button Grid.Row="1" Grid.Column="4" Content="Json" Margin="5"/> 
+        
+
+    </Grid>
+
+</UserControl>
