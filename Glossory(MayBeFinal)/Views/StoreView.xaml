@@ -61,7 +61,7 @@
         <Button Grid.Row="2" Grid.Column="0" Content="Add" Margin="5" Command="{Binding OpenAddWindowCommand}"/>
         <Button Grid.Row="2" Grid.Column="1" Content="Delete" Margin="5" Command="{Binding RemoveCommand}"/>
         <Button Grid.Row="2" Grid.Column="2" Content="Update" Margin="5" Command="{Binding UpdateCommand}"/>
-        <Button Grid.Row="2" Grid.Column="4" Content="Json" Margin="5"/>
+        <Button Grid.Row="2" Grid.Column="4" Content="Json" Margin="5" Command="{Binding JsonUpdateCommand}"/>
 
 
     </Grid>
