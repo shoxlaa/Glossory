@@ -22,7 +22,7 @@ namespace Glossory_MayBeFinal_.Services
             {
                 CommandText = "USE master   IF NOT EXISTS(        SELECT[name]           " +
                 "     FROM sys.databases" +
-                "                WHERE[name] = N'StoreDb') CREATE DATABASE Store   ",
+                "                WHERE[name] = N'Store') CREATE DATABASE Store   ",
                 CommandType = CommandType.Text,
                 Connection = Connection
             };
@@ -67,6 +67,31 @@ IF OBJECT_ID('[dbo].[Products]', 'U') IS NULL  CREATE TABLE [Products]
             {
                 return;
             } 
+        } 
+        public void DropTable()
+        {
+            Connection.Open();
+            try
+            {
+
+                var command = new SqlCommand()
+                {
+                    CommandText = @"Use [Store];  Drop Table Products
+",
+                    CommandType = CommandType.Text,
+                    Connection = Connection
+
+                };
+
+                command.ExecuteNonQuery();
+                Connection.Close();
+
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+
         }
         public void AddProduct(Product product)
         {
@@ -282,82 +307,113 @@ IF OBJECT_ID('[dbo].[Products]', 'U') IS NULL  CREATE TABLE [Products]
             }
 
         }
-        public Product GetProductById(int id)
+        public ObservableCollection<Product> GetProductByCategory(string  _category)
         {
-            Connection.Open();
-            using var command = new SqlCommand()
+         
+            if (IsExistsProducts() == true)
             {
-                CommandText = "USE [Store]; SELECT * FROM [Products] WHERE [ProductId] = @id",
-                CommandType = CommandType.Text,
-                Connection = Connection
-            };
 
-            command.Parameters.AddWithValue("id", id);
 
-            using SqlDataReader reader = command.ExecuteReader();
+                Connection.Open();
+                using var command = new SqlCommand()
+                {
+                    CommandText = "USE [Store]; SELECT * FROM [Products] WHERE [Category] = @category",
+                    CommandType = CommandType.Text,
+                    Connection = Connection
+                };
+                command.Parameters.AddWithValue("Category",_category );
 
-            Product product = new Product();
 
-            while (reader.Read())
-            {
-                //ProductName ",@Coast , @ProductAmount,@Category, @Description)",
-                int productId = Convert.ToInt32(reader["ProductId"]);
-                int productAmount = Convert.ToInt32(reader["ProductAmount"]);
-                string productName = reader["ProductName"].ToString()!;
-                string _ProductCoast = Convert.ToString(reader["Coast"]);
-                float ProductCoast = (float)Convert.ToDouble(_ProductCoast.Replace(',', '.'));
-                string Description = reader["Description"].ToString()!;
 
-                product.ProductId = productId;
-                product.ProductAmount = productAmount;
-                product.ProductName = productName;
-                product.Coast = ProductCoast;
-                product.Description = Description;
+                ObservableCollection<Product> products = new ObservableCollection<Product>();
+                using SqlDataReader reader = command.ExecuteReader();
 
+
+                while (reader.Read())
+                {
+                    Product product = new Product();
+
+                    //ProductName ",@Coast , @ProductAmount,@Category, @Description)",
+                    int productId = Convert.ToInt32(reader["ProductId"]);
+                    int productAmount = Convert.ToInt32(reader["ProductAmount"]);
+                    string productName = reader["ProductName"].ToString()!;
+                    string _ProductCoast = Convert.ToString(reader["Coast"]);
+                    float ProductCoast = (float)Convert.ToDouble(_ProductCoast);
+                    string Description = reader["Description"].ToString()!;
+                    string Category = reader["Category"].ToString()!;
+
+                    product.ProductId = productId;
+                    product.ProductAmount = productAmount;
+                    product.ProductName = productName;
+                    product.Coast = ProductCoast;
+                    product.Description = Description;
+                    product.Category = Category;
+                    products.Add(product);
+
+                }
+                Connection.Close();
+
+                return products;
             }
-
-            reader.Close();
-
+            else
+            {
+                return new ObservableCollection<Product>();
+            }
             Connection.Close();
-            return product;
+
         }
-        public Product GetProductByName(string _name)
+        public ObservableCollection<Product> GetProductByName(string _name)
         {
-            Connection.Open();
-            using var command = new SqlCommand()
+
+            if (IsExistsProducts() == true)
             {
-                CommandText = "USE [Store]; SELECT * FROM [Products] WHERE [ProductName] = @Name",
-                CommandType = CommandType.Text,
-                Connection = Connection
-            };
 
-            command.Parameters.AddWithValue("Name", _name);
 
-            using SqlDataReader reader = command.ExecuteReader();
+                Connection.Open();
+                using var command = new SqlCommand()
+                {
+                    CommandText = "USE [Store]; SELECT * FROM [Products] WHERE [ProductName] =@name",
+                    CommandType = CommandType.Text,
+                    Connection = Connection
+                };
+                command.Parameters.AddWithValue("name", _name);
 
-            Product product = new Product();
 
-            while (reader.Read())
-            {
-                //ProductName ",@Coast , @ProductAmount,@Category, @Description)",
-                int productId = Convert.ToInt32(reader["ProductId"]);
-                int productAmount = Convert.ToInt32(reader["ProductAmount"]);
-                string productName = reader["ProductName"].ToString()!;
-                string _ProductCoast = Convert.ToString(reader["Coast"]);
-                float ProductCoast = (float)Convert.ToDouble(_ProductCoast.Replace(',', '.'));
-                string Description = reader["Description"].ToString()!;
 
-                product.ProductId = productId;
-                product.ProductAmount = productAmount;
-                product.ProductName = productName;
-                product.Coast = ProductCoast;
-                product.Description = Description;
+                ObservableCollection<Product> products = new ObservableCollection<Product>();
+                using SqlDataReader reader = command.ExecuteReader();
 
+
+                while (reader.Read())
+                {
+                    Product product = new Product();
+
+                    //ProductName ",@Coast , @ProductAmount,@Category, @Description)",
+                    int productId = Convert.ToInt32(reader["ProductId"]);
+                    int productAmount = Convert.ToInt32(reader["ProductAmount"]);
+                    string productName = reader["ProductName"].ToString()!;
+                    string _ProductCoast = Convert.ToString(reader["Coast"]);
+                    float ProductCoast = (float)Convert.ToDouble(_ProductCoast);
+                    string Description = reader["Description"].ToString()!;
+                    string Category = reader["Category"].ToString()!;
+
+                    product.ProductId = productId;
+                    product.ProductAmount = productAmount;
+                    product.ProductName = productName;
+                    product.Coast = ProductCoast;
+                    product.Description = Description;
+                    product.Category = Category;
+                    products.Add(product);
+
+                }
+                Connection.Close();
+
+                return products;
             }
-            reader.Close();
-
-            Connection.Close();
-            return product;
+            else
+            {
+                return new ObservableCollection<Product>();
+            }
         }
 
         public bool IsExistsProducts()

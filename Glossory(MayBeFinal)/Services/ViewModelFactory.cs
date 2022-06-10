@@ -17,7 +17,6 @@ namespace Glossory_MayBeFinal_.Services
             return type switch
             {
                 ViewModelType.StoreViewModel =>App.p_container.GetInstance<StoreViewModel>(),
-                ViewModelType.DescriptionViewModel => App.p_container.GetInstance<DescriptionViewModel>(),
                 ViewModelType.AddViewModel => App.p_container.GetInstance<AddViewModel>(),
 
 

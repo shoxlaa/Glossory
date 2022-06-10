@@ -44,16 +44,30 @@ namespace Glossory_MayBeFinal_.ViewModel
         [ICommand]
         private void Add()
         {
+
+            
+              if (Category == null || Coast == null || Description == null || ProductName == null ||Amount == null)
+                {
+                  
+                    return;
+                }
+            
+
             WeakReferenceMessenger.Default.Send(new ValueChangedMessage<Product>(new Product()
             {
                ProductName = ProductName, 
-               Coast = (float)Convert.ToDouble( Coast), 
+               Coast = (float)Convert.ToDouble(Coast), 
                Description = Description, Category = Category, 
                 ProductAmount = Convert.ToInt32(Amount)
-            }));; 
+            }));;
+
+            ProductName = default; 
+            Category = default; 
+            Coast = default;
+            Description = default;
+            Amount = default;
 
 
-            
 
             Back();
         }

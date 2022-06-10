@@ -14,9 +14,7 @@
             <views:StoreView/>
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vm:DescriptionViewModel}" >
-            <views:DescriptionView/>
-        </DataTemplate>
+       
 
         <DataTemplate DataType="{x:Type vm:AddViewModel}" >
             <views:AddView/>

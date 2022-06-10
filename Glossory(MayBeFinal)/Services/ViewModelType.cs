@@ -3,7 +3,6 @@
     public enum ViewModelType
     {
         StoreViewModel,
-        DescriptionViewModel,
         AddViewModel
 
     }

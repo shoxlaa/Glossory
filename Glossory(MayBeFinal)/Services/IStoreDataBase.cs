@@ -17,8 +17,11 @@ namespace Glossory_MayBeFinal_.Services
         public void UpdateAmount(Product product, int _newAmount);
         public void UpdateName(Product product, string _newName);
         public void UpdateDescription(Product product, string _newDescription);
-        public Product GetProductById(int id);
-        public Product GetProductByName(string _name);
+        public ObservableCollection<Product> GetProductByName(string _name);
+        public ObservableCollection<Product> GetProductByCategory(string _category);
+
+        public void DropTable();
+
         public bool IsExistsProducts();
 
 

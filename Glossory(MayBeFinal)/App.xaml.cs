@@ -19,7 +19,6 @@ namespace Glossory_MayBeFinal_
             p_container.RegisterSingleton<MainViewModel>(); 
             p_container.RegisterSingleton<StoreViewModel>(); 
             p_container.RegisterSingleton<AddViewModel>(); 
-            p_container.RegisterSingleton<DescriptionViewModel>();
             p_container.Register< IStoreDataBase, StoreDataBaseService>(Lifestyle.Singleton);
             p_container.Register<ViewModelFactory>(Lifestyle.Singleton);
            p_container.Register<MainWindow>(Lifestyle.Singleton);  
