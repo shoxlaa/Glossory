@@ -5,153 +5,114 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using System.Collections.ObjectModel;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
 
 namespace Glossory_MayBeFinal_.ViewModel
 {
-    [INotifyPropertyChanged]
     public partial class StoreViewModel : BaseViewModel
     {
         private readonly IStoreDataBase _storeData;
-        string jsonString;
 
         public StoreViewModel(IStoreDataBase storeDataBase)
         {
             _storeData = storeDataBase;
-            _storeData.CreateDataBase();
-            _storeData.CreateTable();
             Products = _storeData.SelectAll();
-
-
 
             WeakReferenceMessenger.Default.Register<ValueChangedMessage<Product>>(this, (sender, message) =>
             {
-                Products.Add(message.Value);
                 storeDataBase.AddProduct(message.Value);
+                Products = _storeData.SelectAll();
             });
-
-
-
         }
 
         [ObservableProperty]
-        Product _selectedProduct;
-        [ObservableProperty] 
-        private ObservableCollection<Product> _products;
+        Product? _selectedProduct;
 
+        [ObservableProperty]
+        private ObservableCollection<Product>? _products;
 
-
-
-
-
+        public bool ProductNameIsChecked { get; set; } = true;
         public bool ProductCategoryIsChecked { get; set; }
-        public bool ProductNameIsChecked { get; set; } 
-        public string SearchedText { get; set; } 
+        public string? SearchedText { get; set; }
 
         [ICommand]
-        public void Search()
+        private void Search()
         {
-            
-            if (SearchedText == string.Empty || SearchedText == null)
+            if (string.IsNullOrEmpty(SearchedText))
             {
-                Products =   _storeData.SelectAll();
-                return;
+                Products = _storeData.SelectAll();
             }
-            Products = new ObservableCollection<Product>();
-
-            if (ProductCategoryIsChecked)
+            else if (ProductCategoryIsChecked)
             {
-
                 Products = _storeData.GetProductByName(SearchedText);
-
-         
             }
             else if (ProductNameIsChecked)
             {
                 Products = _storeData.GetProductByCategory(SearchedText);
-
             }
         }
 
         [ICommand]
-        public void OpenAddWindow()
+        private void OpenAddWindow()
         {
             WeakReferenceMessenger.Default.Send(new ValueChangedMessage<ViewModelType>(ViewModelType.AddViewModel));
         }
-        
-        [ICommand] 
-        public void Remove()
-        {
-            if(_selectedProduct != null)
-            {
-                _storeData.DeleteProductByName(SelectedProduct.ProductName);
-                _products.Remove(SelectedProduct);
-            }
 
+        [ICommand]
+        private void Remove()
+        {
+            if (SelectedProduct != null)
+            {
+                _storeData.DeleteProduct(SelectedProduct);
+                Products = _storeData.SelectAll();
+            }
         }
 
-        [ICommand] 
-        public void Update()
+        [ICommand]
+        private void Update()
         {
+            var OldProducts = _storeData.SelectAll();
 
-            foreach (var item in Products)
+            foreach (var item in Products!)
             {
-                if (item.Category == null  || item.ProductId == null || item.Coast == null||  item.Description == null  ||item.ProductName == null || item.ProductAmount == null )
+                if (string.IsNullOrWhiteSpace(item.ProductName) || string.IsNullOrWhiteSpace(item.Category) || string.IsNullOrWhiteSpace(item.Description) || item.Coast <= 0 || item.ProductAmount <= 0)
                 {
-                    Products = _storeData.SelectAll();
-                    MessageBox.Show("Something go wrong!");
+                    MessageBox.Show("Field is empty!");
                     return;
                 }
             }
 
-            JsonUpdate();
-
-            Products = JsonDes(); 
-            _storeData.DropTable(); 
-
-           _storeData.CreateTable(); 
-            foreach(var product in Products)
+            for (int i = 0; i < OldProducts.Count; i++)
             {
-                _storeData.AddProduct(product);
+                if (OldProducts[i].ProductName != Products[i].ProductName)
+                {
+                    _storeData.UpdateName(OldProducts[i], Products[i].ProductName);
+                }
+                if (OldProducts[i].Category != Products[i].Category)
+                {
+                    _storeData.UpdateCategory(OldProducts[i], Products[i].Category);
+                }
+                if (OldProducts[i].Description != Products[i].Description)
+                {
+                    _storeData.UpdateDescription(OldProducts[i], Products[i].Description);
+                }
+                if (OldProducts[i].Coast != Products[i].Coast)
+                {
+                    _storeData.UpdateCoast(OldProducts[i], Products[i].Coast);
+                }
+                if (OldProducts[i].ProductAmount != Products[i].ProductAmount)
+                {
+                    _storeData.UpdateAmount(OldProducts[i], Products[i].ProductAmount);
+                }
             }
+        }
 
-
+        [ICommand]
+        private void Restore()
+        {
             Products = _storeData.SelectAll();
-
-
-
         }
-
-        [ICommand] 
-        public void JsonUpdate()
-        {
-
-
-
-            MessageBox.Show("json was updated");
-
-            string fileName = "ProductsCollection.json";
-            jsonString = JsonSerializer.Serialize(_products); 
-
-            File.WriteAllText(fileName, jsonString);
-        } 
-
-        public ObservableCollection<Product> JsonDes()
-        {
-            string fileName = "ProductsCollection.json";
-            string jsonString = File.ReadAllText(fileName);
-          return  JsonSerializer.Deserialize<ObservableCollection<Product>>(jsonString)!;
-        }
-
-
-
-       
-
-
     }
-
 }

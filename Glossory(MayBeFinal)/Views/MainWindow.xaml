@@ -10,22 +10,15 @@
     d:DataContext="{d:DesignInstance vm:MainViewModel}"
         Title="MainWindow" Height="500" Width="450">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type vm:StoreViewModel}" >
+        <DataTemplate DataType="{x:Type vm:StoreViewModel}">
             <views:StoreView/>
         </DataTemplate>
-
-       
-
-        <DataTemplate DataType="{x:Type vm:AddViewModel}" >
+        <DataTemplate DataType="{x:Type vm:AddViewModel}">
             <views:AddView/>
         </DataTemplate>
-
-
     </Window.Resources>
 
-
     <Grid>
-        <ContentControl Content="{Binding CurrentViewModel}"/> 
-        
+        <ContentControl Content="{Binding CurrentViewModel}"/>
     </Grid>
 </Window>

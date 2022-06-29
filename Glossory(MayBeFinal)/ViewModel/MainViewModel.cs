@@ -7,9 +7,7 @@ using System;
 
 namespace Glossory_MayBeFinal_.ViewModel
 {
-    [INotifyPropertyChanged]
-
-    public partial class MainViewModel : BaseViewModel
+	public partial class MainViewModel : BaseViewModel
     {
 		private readonly ViewModelFactory _factory;
 

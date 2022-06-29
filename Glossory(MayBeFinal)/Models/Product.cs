@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +8,30 @@ using System.Threading.Tasks;
 
 namespace Glossory_MayBeFinal_.Models
 {
-    public  class Product
+
+    [BsonIgnoreExtraElements]
+    public class Product
     {
-        public int ProductId { get; set; }
-        public string ProductName { get; set; }
-        public float Coast { get; set; } // я хз почему но  у менея double работет криво 
+        [BsonElement("_id")]
+        public ObjectId ProductId { get; set; }
+
+        [BsonElement("product_name")]
+        public string? ProductName { get; set; } 
+
+        [BsonElement("coast")]
+        public float Coast { get; set; } 
+        [BsonElement("product_amount")]
         public int ProductAmount { get; set; }
-        public string Category { get; set; }
-        public string Description { get; set; }
+        [BsonElement("category")]
+        public string? Category { get; set; } 
+
+        [BsonElement("description")]
+        public string? Description { get; set; }
+
+        public override string ToString()
+        {
+            return $"{ProductName} : {Coast} x{ProductAmount}";
+        }
     }
+
 }

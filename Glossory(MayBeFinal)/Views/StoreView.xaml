@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             
              xmlns:local="clr-namespace:Glossory_MayBeFinal_.Views" 
              xmlns:models="clr-namespace:Glossory_MayBeFinal_.Models" 
              xmlns:services="clr-namespace:Glossory_MayBeFinal_.Services" 
@@ -15,7 +16,7 @@
 
 
     </UserControl.Resources>
-    
+
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -29,41 +30,30 @@
             <RowDefinition  />
             <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
+
         <DockPanel Grid.Row="0" >
-            <Label DockPanel.Dock="Top" >Store </Label>
-            <RadioButton DockPanel.Dock="Top" IsChecked="{Binding Path=ProductCategoryIsChecked, UpdateSourceTrigger= PropertyChanged, Mode=TwoWay}" > By Name </RadioButton>
-            <RadioButton  DockPanel.Dock="Top" IsChecked="{Binding Path=ProductNameIsChecked, UpdateSourceTrigger= PropertyChanged, Mode=TwoWay}"> By Category </RadioButton>
+            <Label DockPanel.Dock="Top" >Store</Label>
+            <RadioButton DockPanel.Dock="Top" IsChecked="{Binding Path=ProductNameIsChecked, UpdateSourceTrigger= PropertyChanged, Mode=TwoWay}" >By Name</RadioButton>
+            <RadioButton  DockPanel.Dock="Top" IsChecked="{Binding Path=ProductCategoryIsChecked, UpdateSourceTrigger= PropertyChanged, Mode=TwoWay}">By Category</RadioButton>
         </DockPanel>
         <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Margin="20" Text ="{Binding SearchedText, UpdateSourceTrigger= PropertyChanged, Mode=TwoWay}" ></TextBox>
         <Button Grid.Row="0" Grid.Column="4" Content="Search" Margin="10"  Command="{Binding SearchCommand}"/>
 
 
         <DockPanel Grid.Row="1" Grid.ColumnSpan="5" Margin="10">
-
-
-
-            <DataGrid x:Name="ProductsList" ItemsSource="{Binding Products , UpdateSourceTrigger= PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedProduct}" AutoGenerateColumns ="False" >
+            <DataGrid x:Name="ProductsList" ItemsSource="{Binding Products, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" CanUserAddRows="False" SelectedItem="{Binding SelectedProduct}" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-
-
                     <DataGridTextColumn Header="ProductName" Binding="{Binding ProductName}"/>
                     <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
-                    <DataGridTextColumn Header="Coast" Binding="{Binding Coast }" >
-
-                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                    <DataGridTextColumn Header="Coast" Binding="{Binding Coast }"/>
                     <DataGridTextColumn Header="Amount" Binding="{Binding ProductAmount}"/>
-                    <DataGridTextColumn Header="Description" Binding="{Binding Description}"/> 
-                    
                 </DataGrid.Columns>
-
             </DataGrid>
         </DockPanel>
         <Button Grid.Row="2" Grid.Column="0" Content="Add" Margin="5" Command="{Binding OpenAddWindowCommand}"/>
         <Button Grid.Row="2" Grid.Column="1" Content="Delete" Margin="5" Command="{Binding RemoveCommand}"/>
         <Button Grid.Row="2" Grid.Column="2" Content="Update" Margin="5" Command="{Binding UpdateCommand}"/>
-        <Button Grid.Row="2" Grid.Column="4" Content="Json" Margin="5" Command="{Binding JsonUpdateCommand}"/>
-
-
+        <Button Grid.Row="2" Grid.Column="3" Content="Restore" Margin="5" Command="{Binding RestoreCommand}"/>
     </Grid>
-
 </UserControl>

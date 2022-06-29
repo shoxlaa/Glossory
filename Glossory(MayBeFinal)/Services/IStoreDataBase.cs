@@ -6,29 +6,16 @@ namespace Glossory_MayBeFinal_.Services
 {
     public interface IStoreDataBase
     {
-        ObservableCollection <Product> SelectAll();
-        void CreateDataBase();
-        void CreateTable();
-        void AddProduct(Product value);
-        public void DeleteProductByName(string _productName); 
-        public void DeleteProductByCategory(string _productName);
-        public void UpdateCoast(Product product, float _newCoast);
-        public void UpdateCategory(Product product, string _newCategory);
-        public void UpdateAmount(Product product, int _newAmount);
-        public void UpdateName(Product product, string _newName);
-        public void UpdateDescription(Product product, string _newDescription);
-        public ObservableCollection<Product> GetProductByName(string _name);
-        public ObservableCollection<Product> GetProductByCategory(string _category);
-
-        public void DropTable();
-
-        public bool IsExistsProducts();
-
-
-
-
-
-
+        ObservableCollection<Product> SelectAll();
+        void AddProduct(Product product);
+        void DeleteProduct(Product product);
+        ObservableCollection<Product> GetProductByName(string name);
+        ObservableCollection<Product> GetProductByCategory(string category);
+        void UpdateName(Product product, string productName);
+        void UpdateCategory(Product product, string category);
+        void UpdateDescription(Product product, string description);
+        void UpdateCoast(Product product, float coast);
+        void UpdateAmount(Product product, int productAmount);
     }
 
 }
