@@ -19,7 +19,7 @@ namespace Glossory_MayBeFinal_
             p_container.RegisterSingleton<MainViewModel>();
             p_container.RegisterSingleton<StoreViewModel>();
             p_container.RegisterSingleton<AddViewModel>();
-            p_container.RegisterSingleton<IStoreDataBase, StoreDataBaseMongoDb>();
+            p_container.RegisterSingleton<IStoreDataBase, StoreDataBase>();
             p_container.RegisterSingleton<ViewModelFactory>();
             p_container.RegisterSingleton<MainWindow>();
 

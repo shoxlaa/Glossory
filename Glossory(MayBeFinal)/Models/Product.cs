@@ -8,26 +8,14 @@ using System.Threading.Tasks;
 
 namespace Glossory_MayBeFinal_.Models
 {
-
-    [BsonIgnoreExtraElements]
     public class Product
     {
-        [BsonElement("_id")]
-        public ObjectId ProductId { get; set; }
-
-        [BsonElement("product_name")]
-        public string? ProductName { get; set; } 
-
-        [BsonElement("coast")]
-        public float Coast { get; set; } 
-        [BsonElement("product_amount")]
+        public int ProductId { get; set; }
+        public string? ProductName { get; set; }
+        public float Coast { get; set; }
         public int ProductAmount { get; set; }
-        [BsonElement("category")]
-        public string? Category { get; set; } 
-
-        [BsonElement("description")]
+        public string? Category { get; set; }
         public string? Description { get; set; }
-
         public override string ToString()
         {
             return $"{ProductName} : {Coast} x{ProductAmount}";

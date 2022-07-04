@@ -24,13 +24,11 @@ namespace Glossory_MayBeFinal_.ViewModel
         private string? _category;
         [ObservableProperty]
         private string? _description;
-
         [ICommand]
         private void Back()
         {
             WeakReferenceMessenger.Default.Send(new ValueChangedMessage<ViewModelType>(ViewModelType.StoreViewModel));
         }
-
         [ICommand]
         private void Add()
         {
@@ -38,7 +36,7 @@ namespace Glossory_MayBeFinal_.ViewModel
             {
                 return;
             }
-
+            Back();
             WeakReferenceMessenger.Default.Send(new ValueChangedMessage<Product>(new Product()
             {
                 ProductName = ProductName,
@@ -53,8 +51,6 @@ namespace Glossory_MayBeFinal_.ViewModel
             Description = null;
             Coast = default;
             Amount = default;
-
-            Back();
         }
     }
 }
